@@ -12,15 +12,16 @@
   → contato.
 
   O QUE EDITAR ANTES DE PUBLICAR:
-    1. CONFIG no <script> no final do arquivo. O WhatsApp já está com o
-       número real da CRESBI. Os demais (e-mail, Instagram, LinkedIn,
-       YouTube, link do Analyzer, link institucional da CRESBI) estão como
-       "#" e marcados com // TODO — enquanto não forem preenchidos, o botão
-       fica com opacidade reduzida e não faz nada ao ser clicado (de
-       propósito, para não parecer um link quebrado).
-    2. Se você não tiver YouTube (ou quiser tirar alguma rede), apague o
-       <li> correspondente na seção "04 / CONTEÚDO".
-    3. Não há foto/avatar por padrão (ver instrução no <!-- FOTO --> dentro
+    1. CONFIG no <script> no final do arquivo. WhatsApp, e-mail, Instagram e
+       o link do Analyzer (cresbi.com.br) já estão reais. Faltam apenas
+       LinkedIn e o link institucional da CRESBI — estão como "#" e
+       marcados com // TODO; enquanto não forem preenchidos, o botão fica
+       com opacidade reduzida e não faz nada ao ser clicado (de propósito,
+       para não parecer um link quebrado).
+    2. Sem canal no YouTube por enquanto — o link foi removido da seção
+       "04 / CONTEÚDO". Para adicionar depois, veja o comentário deixado
+       no lugar dele.
+    3. Não há foto/avatar por padrão (ver instrução "FOTO (opcional)" dentro
        do hero) — o layout foi pensado para funcionar bem com ou sem ela.
   ============================================================================
 -->
@@ -298,7 +299,7 @@
       <h2 class="section-title reveal">Veja como eu analiso um negócio através dos dados.</h2>
       <p class="lead reveal">Explore uma análise comercial completa construída com uma base demonstrativa.</p>
       <p class="fine-note reveal">Base fictícia, criada exclusivamente para demonstração — não representa uma empresa real.</p>
-      <a class="cta-link reveal" href="exemplo-analise-demonstrativa.html" target="_blank" rel="noopener">
+      <a class="cta-link reveal" href="https://cresbi.com.br/exemplo-analise-demonstrativa.html" target="_blank" rel="noopener">
         VER ANÁLISE DEMONSTRATIVA
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -325,13 +326,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </li>
-        <li>
-          <!-- Remova este <li> se não houver canal no YouTube -->
-          <a data-link="youtube" href="#" target="_blank" rel="noopener">
-            YOUTUBE
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </li>
+        <!-- YouTube removido — sem canal ainda. Para adicionar depois, reinclua um
+             <li> com <a data-link="youtube" ...>YOUTUBE</a> e preencha CONFIG.youtube. -->
       </ul>
     </div>
   </section>
@@ -382,21 +378,22 @@
 
 <script>
   /* ==========================================================================
-     CONFIGURAÇÃO — troque os links aqui. O WhatsApp já é o número real da
-     CRESBI (o mesmo do site oficial do Analyzer). Os demais estão como "#"
-     até serem preenchidos — enquanto isso, os botões ficam com opacidade
-     reduzida e não fazem nada ao clicar (ver lógica de "is-todo" abaixo).
+     CONFIGURAÇÃO — troque os links aqui. WhatsApp, e-mail, Instagram e o
+     link do Analyzer já são reais. LinkedIn e o link institucional da
+     CRESBI estão como "#" até serem preenchidos — enquanto isso, os
+     botões ficam com opacidade reduzida e não fazem nada ao clicar
+     (ver lógica de "is-todo" abaixo).
      ========================================================================== */
   const CONFIG = {
     whatsapp: "https://wa.me/5511932317374?text=" + encodeURIComponent(
       "Olá, Richard! Vim do seu perfil e gostaria de conversar."
     ),
-    email: "#",     // TODO: inserir e-mail real, ex.: "richard@cresbi.com.br"
-    instagram: "#", // TODO: inserir URL real do Instagram pessoal
+    email: "contato@cresbi.com.br",
+    instagram: "https://instagram.com/cresbi.oficial",
     linkedin: "#",  // TODO: inserir URL real do LinkedIn
-    youtube: "#",   // TODO: inserir URL real do YouTube (ou remova o <li> correspondente)
-    analyzer: "#",  // TODO: inserir URL real da página do CRESBI Analyzer
+    analyzer: "https://cresbi.com.br",
     cresbi: "#",    // TODO: inserir URL real de uma página institucional da CRESBI
+    // youtube: sem canal ainda — reintroduza esta chave se/quando existir.
   };
 
   document.querySelectorAll("[data-link]").forEach((el) => {
