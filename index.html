@@ -1,28 +1,32 @@
 <!doctype html>
 <!--
   ============================================================================
-  RICHARD DIAS — PÁGINA PESSOAL (bio do Instagram)
+  RICHARD DIAS — BIO SITE (link da bio do Instagram)
   ============================================================================
-  Arquivo único, sem dependências externas — mesma família tipográfica e
-  paleta do CRESBI Analyzer (ink/petrol/paper), para que esta página e o
-  produto pareçam do mesmo sistema visual.
+  Hub pessoal compacto baseado em cards, na identidade visual do CRESBI
+  Analyzer (ink/petrol/paper). Sem seções gigantes, sem hero de tela cheia —
+  pensado para ser escaneado em poucos segundos no celular.
 
-  Página pessoal de posicionamento, não catálogo de serviços. Ordem:
-  Richard → método → trabalho (Analyzer) → prova (demo) → conteúdo → CRESBI
-  → contato.
+  ORDEM: perfil (nome + monograma/foto) → cards (Analyzer, Consultoria,
+  Conteúdos, Materiais, CRESBI, Falar comigo) → Sobre → Redes → Footer.
 
   O QUE EDITAR ANTES DE PUBLICAR:
-    1. CONFIG no <script> no final do arquivo. WhatsApp, e-mail, Instagram e
-       o link do Analyzer (cresbi.com.br) já estão reais. Faltam apenas
-       LinkedIn e o link institucional da CRESBI — estão como "#" e
-       marcados com // TODO; enquanto não forem preenchidos, o botão fica
-       com opacidade reduzida e não faz nada ao ser clicado (de propósito,
-       para não parecer um link quebrado).
-    2. Sem canal no YouTube por enquanto — o link foi removido da seção
-       "04 / CONTEÚDO". Para adicionar depois, veja o comentário deixado
-       no lugar dele.
-    3. Não há foto/avatar por padrão (ver instrução "FOTO (opcional)" dentro
-       do hero) — o layout foi pensado para funcionar bem com ou sem ela.
+    1. CONFIG no <script> no final do arquivo. WhatsApp, e-mail, Instagram
+       e o link do Analyzer já são reais. Faltam LinkedIn e o link
+       institucional da CRESBI — estão como "#" e marcados com // TODO;
+       enquanto isso o card/ícone fica com opacidade reduzida e não faz
+       nada ao clicar (de propósito, para não parecer um link quebrado).
+    2. Foto: veja o comentário "FOTO (opcional)" dentro do bloco de perfil.
+       Sem foto, um monograma "RD" aparece no lugar — o layout funciona
+       igualmente bem dos dois jeitos.
+    3. Card "MATERIAIS & E-BOOKS" está propositalmente sem link (produto
+       ainda não existe) — mostra "EM BREVE". Quando houver destino real,
+       transforme a div.secondary-card.is-soon em <a> com data-link e
+       adicione a chave em CONFIG.
+    4. Novo card no futuro (cursos, templates, newsletter etc.): copie um
+       bloco <a class="secondary-card"> dentro de #cards e adicione a
+       chave correspondente em CONFIG. Todo card secundário usa a mesma
+       classe "secondary-card" — não crie variações de layout.
   ============================================================================
 -->
 <html lang="pt-BR">
@@ -48,180 +52,156 @@
     --muted:#5B6C74;
     --font-display:Bahnschrift,"Roboto Condensed","Arial Narrow","Segoe UI",sans-serif;
     --font-body:"Segoe UI",Inter,Arial,sans-serif;
-    --max-w:620px;
-    --tr:200ms ease;
+    --max-w:520px;
+    --tr:180ms ease;
   }
   *,*::before,*::after{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;background:var(--paper);color:var(--ink);
-    font:400 16px/1.6 var(--font-body);-webkit-font-smoothing:antialiased;
+    font:400 16px/1.55 var(--font-body);-webkit-font-smoothing:antialiased;
   }
   img,svg{display:block;max-width:100%;}
   a{color:inherit;text-decoration:none;}
   ul{margin:0;padding:0;list-style:none;}
-  p{margin:0;color:var(--muted);}
+  p{margin:0;}
   h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;}
 
   .skip-link{position:fixed;top:8px;left:8px;z-index:1000;padding:10px 14px;background:var(--white);transform:translateY(-160%);}
   .skip-link:focus{transform:none;}
 
-  .wrap{max-width:var(--max-w);margin-inline:auto;padding-inline:24px;}
-  .section{padding-block:clamp(48px,9vw,80px);border-top:1px solid var(--line);}
-  .section-tinted{background:#EDF2F3;}
-  .section-dark{background:var(--ink);color:var(--white);}
-  .section-dark p{color:#AEBDC3;}
+  .page-wrap{max-width:var(--max-w);margin-inline:auto;padding-inline:20px;}
 
   .section-code{
-    display:inline-block;margin-bottom:18px;padding-top:10px;
+    display:inline-block;margin-bottom:12px;padding-top:8px;
     border-top:2px solid var(--petrol);
-    color:var(--petrol);font:700 .68rem/1.2 var(--font-display);
+    color:var(--petrol);font:700 .64rem/1.2 var(--font-display);
     letter-spacing:.14em;text-transform:uppercase;
   }
-  .section-code.light{color:#8FC4C5;border-top-color:#8FC4C5;}
 
-  .section-title{font-size:clamp(1.6rem,4vw,2.1rem);line-height:1.12;color:var(--ink);margin-bottom:14px;}
-  .section-title.light{color:var(--white);}
-  .lead{max-width:520px;font-size:1rem;line-height:1.6;}
-  .lead.light{color:#C7D6D6;}
-  .fine-note{margin-top:10px;color:var(--muted);font-size:.78rem;font-style:italic;}
-
-  /* ---------- LINKS/CTAs COM SETA ---------- */
-  .cta-link{
-    display:inline-flex;align-items:center;gap:10px;margin-top:22px;
-    color:var(--petrol);font:700 .8rem/1 var(--font-display);
-    letter-spacing:.06em;text-transform:uppercase;
-    padding-bottom:4px;border-bottom:2px solid var(--petrol);
-    transition:gap var(--tr),opacity var(--tr);
+  /* ---------- PERFIL ---------- */
+  .profile{padding-block:34px 22px;text-align:center;}
+  .avatar{
+    width:72px;height:72px;margin:0 auto 16px;border-radius:50%;
+    background:var(--ink);border:2px solid var(--petrol);
+    display:grid;place-items:center;color:var(--white);
+    font:700 1.05rem/1 var(--font-display);letter-spacing:.03em;
+    overflow:hidden;
   }
-  .cta-link:hover{gap:15px;}
-  .cta-link svg{width:15px;height:15px;transition:transform var(--tr);}
-  .cta-link:hover svg{transform:translateX(2px);}
-  .cta-link.on-dark{color:var(--white);border-bottom-color:var(--white);}
-  .cta-link.is-todo{opacity:.45;cursor:not-allowed;}
-
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    min-height:54px;padding:14px 26px;
-    background:var(--petrol);color:var(--white);border:1px solid var(--petrol);
-    font:700 .8rem/1 var(--font-display);letter-spacing:.04em;
-    transition:background var(--tr),border-color var(--tr),transform var(--tr),opacity var(--tr);
-  }
-  .btn:hover{background:var(--ink);border-color:var(--ink);transform:translateY(-1px);}
-  .btn svg{width:15px;height:15px;transition:transform var(--tr);}
-  .btn:hover svg{transform:translateX(2px);}
-  .btn-light{background:var(--white);color:var(--ink);border-color:var(--white);}
-  .btn-light:hover{background:var(--petrol);color:var(--white);border-color:var(--petrol);}
-  .btn.is-todo{opacity:.4;cursor:not-allowed;}
-  .btn.is-todo:hover{background:var(--petrol);border-color:var(--petrol);transform:none;}
-  .btn-light.is-todo:hover{background:var(--white);color:var(--ink);}
-
-  /* ---------- TOPBAR ---------- */
-  .topbar{
-    position:sticky;top:0;z-index:20;background:rgba(247,249,250,.94);
-    -webkit-backdrop-filter:saturate(140%);backdrop-filter:saturate(140%);
-    border-bottom:1px solid var(--line);
-  }
-  .topbar-inner{display:flex;align-items:center;gap:14px;height:60px;}
-  .topbar-brand{display:inline-flex;align-items:center;gap:9px;flex:0 0 auto;}
-  .brand-mark{
-    width:28px;height:28px;display:grid;place-items:center;flex:0 0 auto;
-    background:var(--ink);border-left:4px solid var(--petrol);
-    color:var(--white);font:700 .82rem/1 var(--font-display);
-  }
-  .brand-name{font:700 .78rem/1 var(--font-display);letter-spacing:.05em;white-space:nowrap;}
-  .topbar-cta{
-    margin-left:auto;color:var(--petrol);font:700 .74rem/1 var(--font-display);
-    letter-spacing:.05em;text-transform:uppercase;
-    padding-bottom:3px;border-bottom:2px solid transparent;
-    transition:border-color var(--tr);
-  }
-  .topbar-cta:hover{border-color:var(--petrol);}
-
-  /* ---------- HERO ---------- */
-  .hero{padding-block:clamp(52px,10vw,86px) clamp(44px,8vw,64px);}
-  .hero-grid{display:grid;gap:clamp(36px,6vw,56px);}
-  .hero-copy h1{font-size:clamp(2.5rem,8vw,3.6rem);line-height:.98;margin-bottom:14px;}
-  .role{margin-bottom:16px;color:var(--ink);font:700 .82rem/1.3 var(--font-display);letter-spacing:.12em;}
-  .hero-copy .lead{max-width:460px;font-size:clamp(1.05rem,2vw,1.2rem);color:#33464E;line-height:1.55;}
+  .profile h1{font-size:clamp(1.55rem,7vw,2rem);line-height:1.05;margin-bottom:8px;}
+  .role{margin-bottom:12px;color:var(--petrol);font:700 .7rem/1 var(--font-display);letter-spacing:.13em;}
+  .profile .lead{max-width:320px;margin-inline:auto;font-size:.92rem;line-height:1.5;color:#33464E;}
   .founder-tag{
-    display:inline-flex;align-items:center;gap:8px;margin-top:24px;
-    padding:8px 14px;border:1px solid var(--line);background:var(--white);
-    color:var(--muted);font-size:.76rem;font-weight:600;
+    display:inline-flex;align-items:center;gap:6px;margin-top:16px;
+    padding:7px 13px;border:1px solid var(--line);background:var(--white);
+    color:var(--muted);font-size:.72rem;font-weight:600;
   }
   .founder-tag b{color:var(--petrol);}
 
-  .hero-method{padding-top:6px;}
-  .method-label{margin-bottom:14px;color:var(--muted);font:700 .64rem/1 var(--font-display);letter-spacing:.16em;}
-  .flow-strip{display:flex;flex-wrap:wrap;align-items:center;gap:8px 6px;}
-  .flow-strip span{
-    padding:10px 14px;color:#33464E;background:var(--white);
-    border:1px solid var(--line);font:700 .66rem/1 var(--font-display);letter-spacing:.05em;
-  }
-  .flow-strip i{color:#9FB1B7;font:normal .95rem/1 var(--font-display);}
-  .flow-strip .flow-highlight{background:var(--petrol);color:var(--white);border-color:var(--petrol);}
+  .divider{height:1px;background:var(--line);margin-block:0 22px;}
 
-  /* ---------- 02 · TRABALHO ---------- */
-  .work-card{
-    margin-top:0;padding:clamp(28px,5vw,44px);
-    background:var(--ink);border-left:8px solid var(--petrol);color:var(--white);
+  /* ---------- CARDS ---------- */
+  .cards{display:grid;gap:10px;margin-bottom:6px;}
+
+  /* nível 1 — destaque máximo */
+  .card-feature{
+    position:relative;display:block;padding:24px 22px;
+    background:var(--ink);border-left:6px solid var(--petrol);color:var(--white);
+    transition:border-color var(--tr),transform var(--tr);
   }
-  .work-tag{display:block;margin-bottom:14px;color:#8FC4C5;font:700 .66rem/1 var(--font-display);letter-spacing:.14em;}
-  .work-card h2{font-size:clamp(1.7rem,4.5vw,2.3rem);color:var(--white);margin-bottom:14px;}
-  .work-lead{color:#E4EDEC;font-size:1.02rem;line-height:1.55;max-width:460px;}
-  .work-support{margin-top:10px;color:#A9BEC1;font-size:.88rem;line-height:1.55;max-width:460px;}
-  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
-  .tag-row span{
-    padding:6px 11px;border:1px solid rgba(255,255,255,.22);
-    color:#CFE3E2;font:700 .66rem/1 var(--font-display);letter-spacing:.05em;
+  .card-feature:hover{border-left-color:#1E8B90;transform:translateY(-1px);}
+  .card-feature .card-code{position:absolute;top:16px;right:18px;color:rgba(255,255,255,.32);font:700 .66rem/1 var(--font-display);}
+  .card-feature .card-tag{display:block;margin-bottom:10px;color:#8FC4C5;font:700 .62rem/1 var(--font-display);letter-spacing:.14em;}
+  .card-feature h2{font-size:clamp(1.35rem,5vw,1.6rem);color:var(--white);margin-bottom:8px;}
+  .card-feature p{max-width:300px;color:#C7D6D6;font-size:.86rem;line-height:1.5;}
+  .card-feature .card-cta{
+    display:inline-flex;align-items:center;gap:7px;margin-top:16px;
+    color:var(--white);font:700 .7rem/1 var(--font-display);letter-spacing:.06em;
+    padding-bottom:3px;border-bottom:2px solid var(--petrol);transition:gap var(--tr);
+  }
+  .card-feature:hover .card-cta{gap:11px;}
+  .card-feature .card-cta svg{width:13px;height:13px;}
+
+  /* nível 2 — ofertas comerciais */
+  /*
+    Cards secundários — componente único e compartilhado.
+    Consultoria é a referência visual: todo card secundário (Conteúdos,
+    Materiais & E-books, CRESBI, Falar comigo) usa exatamente esta classe.
+    Só mudam ícone, título, descrição e destino do link — nunca a estrutura.
+  */
+  .secondary-card{
+    position:relative;display:flex;align-items:flex-start;gap:14px;
+    min-height:72px;padding:17px;background:var(--white);
+    border:1px solid var(--line);border-left:4px solid var(--petrol);
+    transition:border-color var(--tr),transform var(--tr);
+  }
+  a.secondary-card:hover{border-color:var(--petrol);transform:translateY(-1px);}
+  .secondary-card .card-icon{
+    flex:0 0 auto;width:38px;height:38px;display:grid;place-items:center;
+    background:#EAF1F1;color:var(--petrol);
+  }
+  .secondary-card .card-icon svg{width:19px;height:19px;}
+  .secondary-card .card-body{flex:1 1 auto;min-width:0;}
+  .secondary-card h3{font-size:.98rem;margin-bottom:4px;color:var(--ink);}
+  .secondary-card p{font-size:.8rem;line-height:1.45;color:var(--muted);}
+  .secondary-card .card-arrow{flex:0 0 auto;align-self:center;width:16px;height:16px;color:var(--petrol);transition:transform var(--tr);}
+  a.secondary-card:hover .card-arrow{transform:translateX(3px);}
+
+  /* modificador: ainda sem destino real (ex.: Materiais & E-books) */
+  .secondary-card.is-soon{cursor:default;}
+  .soon-badge{
+    flex:0 0 auto;align-self:center;padding:5px 9px;border:1px solid var(--line);
+    color:var(--muted);font:700 .58rem/1 var(--font-display);letter-spacing:.08em;white-space:nowrap;
   }
 
-  /* ---------- 05 · CRESBI ---------- */
-  .cresbi-panel{
-    padding:clamp(26px,4.5vw,38px);background:var(--white);
-    border:1px solid var(--line);border-left:6px solid var(--petrol);
-  }
-  .cresbi-panel .section-title{margin-bottom:12px;}
-  .cresbi-panel .lead{max-width:460px;}
+  /* modificador: link ainda não configurado (ex.: CRESBI institucional) */
+  .secondary-card.is-todo{opacity:.5;cursor:not-allowed;}
+  .secondary-card.is-todo:hover{border-color:var(--petrol);transform:none;}
 
-  /* ---------- 04 · CONTEÚDO ---------- */
-  .link-rows{margin-top:24px;border-top:1px solid var(--line);}
-  .link-rows li{border-bottom:1px solid var(--line);}
-  .link-rows a{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:19px 2px;color:var(--ink);
-    font:700 .92rem/1 var(--font-display);letter-spacing:.03em;
-    transition:padding-left var(--tr),color var(--tr);
+  @media (max-width:380px){
+    /* espaço curto: o badge "EM BREVE" desce para uma segunda linha em vez
+       de espremer título/descrição ou sobrepor conteúdo */
+    .secondary-card.is-soon{flex-wrap:wrap;}
+    .secondary-card.is-soon .card-body{flex-basis:100%;}
+    .secondary-card.is-soon .soon-badge{margin:6px 0 0 52px;}
   }
-  .link-rows a:hover{padding-left:8px;color:var(--petrol);}
-  .link-rows a svg{width:16px;height:16px;flex:0 0 auto;transition:transform var(--tr);}
-  .link-rows a:hover svg{transform:translateX(3px);}
-  .link-rows a.is-todo{color:var(--muted);opacity:.5;cursor:not-allowed;}
-  .link-rows a.is-todo:hover{padding-left:2px;color:var(--muted);}
 
-  /* ---------- 06 · CONTATO ---------- */
-  .contact-actions{display:grid;gap:12px;margin-top:26px;max-width:340px;}
+  /* ---------- SOBRE ---------- */
+  .about{padding-block:26px 4px;}
+  .about p.about-text{max-width:480px;font-size:.88rem;line-height:1.6;color:#33464E;}
+
+  /* ---------- REDES ---------- */
+  .socials{padding-block:22px 4px;}
+  .social-row{display:flex;gap:12px;}
+  .social-row a{
+    width:42px;height:42px;display:grid;place-items:center;
+    border:1px solid var(--line);color:var(--ink);
+    transition:border-color var(--tr),color var(--tr);
+  }
+  .social-row a svg{width:18px;height:18px;}
+  .social-row a:hover{border-color:var(--petrol);color:var(--petrol);}
+  .social-row a.is-todo{opacity:.4;cursor:not-allowed;}
+  .social-row a.is-todo:hover{border-color:var(--line);color:var(--ink);}
 
   /* ---------- FOOTER ---------- */
-  .footer{padding-block:44px 30px;text-align:center;background:var(--ink);color:var(--white);}
-  .footer-name{font:700 1rem/1 var(--font-display);letter-spacing:.08em;}
-  .footer-role{margin-top:8px;color:#8FC4C5;font:700 .66rem/1 var(--font-display);letter-spacing:.14em;}
-  .footer-loop{margin-top:18px;color:#7F929A;font:700 .62rem/1 var(--font-display);letter-spacing:.16em;}
-  .footer-meta{margin-top:16px;color:#66787F;font-size:.7rem;}
+  .footer{margin-top:30px;padding-block:28px 24px;text-align:center;background:var(--ink);color:var(--white);}
+  .footer-name{font:700 .92rem/1 var(--font-display);letter-spacing:.08em;}
+  .footer-role{margin-top:7px;color:#8FC4C5;font:700 .6rem/1 var(--font-display);letter-spacing:.13em;}
+  .footer-loop{margin-top:14px;color:#7F929A;font:700 .58rem/1 var(--font-display);letter-spacing:.15em;}
+  .footer-meta{margin-top:13px;color:#66787F;font-size:.68rem;}
   .footer-cresbi{color:#8FC4C5;font-weight:700;}
 
   /* ---------- ANIMAÇÃO DE ENTRADA ---------- */
-  .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease;}
   .reveal.is-visible{opacity:1;transform:none;}
 
-  @media (min-width:820px){
-    .hero-grid{grid-template-columns:1.05fr .95fr;align-items:center;}
-    .contact-actions{grid-auto-flow:column;max-width:none;}
-    .contact-actions .btn,.contact-actions .btn-light{width:auto;}
+  @media (min-width:640px){
+    body{background:var(--mist);}
+    .page-wrap{background:var(--paper);margin-block:36px;border:1px solid var(--line);}
+    .footer{margin-top:30px;}
   }
-  @media (max-width:480px){
-    .wrap{padding-inline:20px;}
-    .topbar-inner{height:56px;}
+  @media (max-width:340px){
+    .page-wrap{padding-inline:16px;}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
@@ -231,141 +211,130 @@
 </style>
 </head>
 <body>
-<a class="skip-link" href="#topo">Ir para o conteúdo</a>
+<a class="skip-link" href="#cards">Ir para o conteúdo</a>
 
-<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="topbar-brand" href="#topo" aria-label="Richard Dias — início">
-      <span class="brand-mark" aria-hidden="true">R</span>
-      <span class="brand-name">RICHARD DIAS</span>
-    </a>
-    <a class="topbar-cta" data-link="whatsapp" href="#" target="_blank" rel="noopener">Falar comigo</a>
-  </div>
-</header>
+<div class="page-wrap">
+  <main>
 
-<main>
+    <!-- ======================= PERFIL ======================= -->
+    <section class="profile reveal">
+      <!-- FOTO (opcional): substitua o conteúdo da div .avatar abaixo por
+           <img src="sua-foto.jpg" alt="Richard Dias" style="width:100%;height:100%;object-fit:cover;">
+           mantendo a classe "avatar" para herdar tamanho e formato circular.
+           Sem foto, o monograma "RD" abaixo cobre esse espaço perfeitamente. -->
+      <div class="avatar" aria-hidden="true">RD</div>
+      <h1>RICHARD DIAS</h1>
+      <p class="role">DADOS · ESTRATÉGIA · NEGÓCIOS</p>
+      <p class="lead">Uso dados para entender negócios, investigar problemas e tomar decisões melhores.</p>
+      <span class="founder-tag">Fundador da <b>CRESBI</b></span>
+    </section>
 
-  <!-- ======================= 01 / RICHARD DIAS ======================= -->
-  <section class="hero" id="topo">
-    <div class="wrap hero-grid">
-      <div class="hero-copy reveal">
-        <p class="section-code">01 / RICHARD DIAS</p>
-        <!-- FOTO (opcional): se quiser incluir uma fotografia, adicione aqui um
-             <img src="sua-foto.jpg" alt="Richard Dias" style="width:64px;height:64px;
-             border-radius:50%;object-fit:cover;margin-bottom:20px;"> antes do <h1>.
-             O layout funciona bem com ou sem essa imagem. -->
-        <h1>RICHARD DIAS</h1>
-        <p class="role">DADOS · ESTRATÉGIA · NEGÓCIOS</p>
-        <p class="lead">Uso dados para entender negócios, investigar problemas e tomar decisões melhores.</p>
-        <span class="founder-tag">Fundador da <b>CRESBI</b></span>
-      </div>
+    <div class="divider" role="separator"></div>
 
-      <div class="hero-method reveal">
-        <p class="method-label">MÉTODO</p>
-        <div class="flow-strip" aria-label="Analisar, entender, decidir, crescer">
-          <span>ANALISAR</span><i aria-hidden="true">→</i>
-          <span>ENTENDER</span><i aria-hidden="true">→</i>
-          <span class="flow-highlight">DECIDIR</span><i aria-hidden="true">→</i>
-          <span>CRESCER</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- ======================= CARDS ======================= -->
+    <section id="cards" class="cards">
 
-  <!-- ======================= 02 / MEU TRABALHO ======================= -->
-  <section class="section" id="trabalho">
-    <div class="wrap">
-      <p class="section-code reveal">02 / MEU TRABALHO</p>
-      <div class="work-card reveal">
-        <span class="work-tag">PRODUTO</span>
+      <!-- 01 — CRESBI ANALYZER (nível 1) -->
+      <a class="card-feature reveal" data-link="analyzer" href="#" target="_blank" rel="noopener">
+        <span class="card-code">01</span>
+        <span class="card-tag">INTELIGÊNCIA COMERCIAL</span>
         <h2>CRESBI ANALYZER</h2>
-        <p class="work-lead">Transforme dados comerciais em uma leitura clara de riscos, oportunidades e prioridades.</p>
-        <p class="work-support">Um diagnóstico de inteligência comercial construído a partir da base de vendas da empresa.</p>
-        <div class="tag-row">
-          <span>RFM</span><span>Cross-sell</span><span>Riscos</span><span>Prioridades</span>
-        </div>
-        <a class="cta-link on-dark" data-link="analyzer" href="#" target="_blank" rel="noopener">
-          CONHECER O ANALYZER
+        <p>Descubra o que seus dados comerciais estão tentando mostrar.</p>
+        <span class="card-cta">CONHECER
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================= 03 / NA PRÁTICA ======================= -->
-  <section class="section section-tinted" id="pratica">
-    <div class="wrap">
-      <p class="section-code reveal">03 / NA PRÁTICA</p>
-      <h2 class="section-title reveal">Veja como eu analiso um negócio através dos dados.</h2>
-      <p class="lead reveal">Explore uma análise comercial completa construída com uma base demonstrativa.</p>
-      <p class="fine-note reveal">Base fictícia, criada exclusivamente para demonstração — não representa uma empresa real.</p>
-      <a class="cta-link reveal" href="https://cresbi.com.br/exemplo-analise-demonstrativa.html" target="_blank" rel="noopener">
-        VER ANÁLISE DEMONSTRATIVA
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
       </a>
-    </div>
-  </section>
 
-  <!-- ======================= 04 / CONTEÚDO ======================= -->
-  <section class="section" id="conteudo-links">
-    <div class="wrap">
-      <p class="section-code reveal">04 / CONTEÚDO</p>
-      <h2 class="section-title reveal">O que estou estudando, analisando e construindo.</h2>
-      <p class="lead reveal">Conteúdos sobre dados, estratégia, inteligência comercial, negócios e tomada de decisão.</p>
+      <!-- 02 — CONSULTORIA (nível 2) -->
+      <a class="secondary-card reveal" data-link="consultoria" href="#" target="_blank" rel="noopener">
+        <span class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.6"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg>
+        </span>
+        <span class="card-body">
+          <h3>CONSULTORIA</h3>
+          <p>Análise, estratégia e inteligência para problemas reais de negócio.</p>
+        </span>
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
 
-      <ul class="link-rows reveal">
-        <li>
-          <a data-link="instagram" href="#" target="_blank" rel="noopener">
-            INSTAGRAM
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </li>
-        <li>
-          <a data-link="linkedin" href="#" target="_blank" rel="noopener">
-            LINKEDIN
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </li>
-        <!-- YouTube removido — sem canal ainda. Para adicionar depois, reinclua um
-             <li> com <a data-link="youtube" ...>YOUTUBE</a> e preencha CONFIG.youtube. -->
-      </ul>
-    </div>
-  </section>
+      <!-- 03 — CONTEÚDOS (nível 3) -->
+      <a class="secondary-card reveal" href="#redes">
+        <span class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.3" y="4.3" width="17.4" height="15.4" rx="1.6"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>
+        </span>
+        <span class="card-body">
+          <h3>CONTEÚDOS</h3>
+          <p>Dados, estratégia, inteligência comercial e negócios.</p>
+        </span>
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
 
-  <!-- ======================= 05 / CRESBI ======================= -->
-  <section class="section" id="cresbi">
-    <div class="wrap">
-      <p class="section-code reveal">05 / CRESBI</p>
-      <div class="cresbi-panel reveal">
-        <h2 class="section-title">Construindo inteligência para decisões melhores.</h2>
-        <p class="lead">A CRESBI é onde transformo análises, métodos e produtos em soluções para problemas reais de negócio.</p>
-        <a class="cta-link" data-link="cresbi" href="#" target="_blank" rel="noopener">
-          CONHECER A CRESBI
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+      <!-- 04 — MATERIAIS & E-BOOKS (nível 2, sem link — produto ainda não existe) -->
+      <div class="secondary-card is-soon reveal" aria-disabled="true">
+        <span class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.3c2-1 5.3-1 8 0v14c-2.7-1-6-1-8 0Z"/><path d="M20 5.3c-2-1-5.3-1-8 0"/><path d="M12 5.3v14"/></svg>
+        </span>
+        <span class="card-body">
+          <h3>MATERIAIS &amp; E-BOOKS</h3>
+          <p>Guias, análises e materiais práticos para decisões melhores.</p>
+        </span>
+        <span class="soon-badge">EM BREVE</span>
       </div>
-    </div>
-  </section>
 
-  <!-- ======================= 06 / CONTATO ======================= -->
-  <section class="section" id="contato">
-    <div class="wrap">
-      <p class="section-code reveal">06 / CONTATO</p>
-      <h2 class="section-title reveal">Vamos conversar.</h2>
-      <p class="lead reveal">Projetos, negócios, parcerias ou uma boa conversa sobre dados e estratégia.</p>
+      <!-- 05 — CRESBI (nível 3) -->
+      <a class="secondary-card reveal" data-link="cresbi" href="#" target="_blank" rel="noopener">
+        <span class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.3" width="10" height="17.4"/><path d="M14 9.3h6v11.4h-6"/><path d="M7 7h4M7 10.3h4M7 13.6h4M7 16.9h4"/></svg>
+        </span>
+        <span class="card-body">
+          <h3>CRESBI</h3>
+          <p>Inteligência para decisões melhores.</p>
+        </span>
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
 
-      <div class="contact-actions reveal">
-        <a class="btn" data-link="whatsapp" href="#" target="_blank" rel="noopener">
-          FALAR COMIGO
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <!-- 06 — FALAR COMIGO (nível 3) -->
+      <a class="secondary-card reveal" data-link="whatsapp" href="#" target="_blank" rel="noopener">
+        <span class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 17.5 4 20l2.6-2.4A8 8 0 1 1 9.6 19Z"/><path d="M9.2 9.6c.3 2.6 2.4 4.7 5 5"/></svg>
+        </span>
+        <span class="card-body">
+          <h3>FALAR COMIGO</h3>
+          <p>Projetos, negócios e parcerias.</p>
+        </span>
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <!-- Novo card futuro: duplique um bloco <a class="secondary-card"> acima
+           (mesma estrutura de ícone + título + descrição + seta) e registre
+           a chave correspondente em CONFIG. -->
+    </section>
+
+    <!-- ======================= SOBRE ======================= -->
+    <section class="about reveal">
+      <p class="section-code">SOBRE</p>
+      <p class="about-text">Trabalho na interseção entre dados, estratégia e negócios. Gosto de investigar operações, encontrar padrões e transformar informação em decisões mais claras.</p>
+    </section>
+
+    <!-- ======================= REDES ======================= -->
+    <section class="socials reveal" id="redes">
+      <p class="section-code">REDES</p>
+      <div class="social-row">
+        <a data-link="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.3" y="3.3" width="17.4" height="17.4" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="16.6" cy="7.4" r=".4" fill="currentColor" stroke="none"/></svg>
         </a>
-        <a class="btn btn-light" data-link="email" href="#">
-          E-MAIL
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <a data-link="linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.3" cy="6.3" r="1.6"/><path d="M6.3 10.5v9M11 19.5v-5.4c0-2.4 3.6-2.6 3.6 0v5.4M14.6 19.5v-5.4c0-2.4 3.6-2.6 3.6 0v5.4M11 10.5v9"/></svg>
         </a>
+        <a data-link="email" href="#" aria-label="E-mail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.3" y="5.3" width="17.4" height="13.4" rx="2"/><path d="m4 6.5 8 6.2 8-6.2"/></svg>
+        </a>
+        <!-- YouTube: sem canal ainda. Para adicionar, inclua aqui um <a data-link="youtube">
+             com o mesmo padrão dos ícones acima e registre a chave em CONFIG. -->
       </div>
-    </div>
-  </section>
+    </section>
+
+  </main>
 
   <footer class="footer">
     <p class="footer-name">RICHARD DIAS</p>
@@ -373,27 +342,30 @@
     <p class="footer-loop">ANALISAR · ENTENDER · CRESCER</p>
     <p class="footer-meta">© <span id="year"></span> · <span class="footer-cresbi">CRESBI</span></p>
   </footer>
-
-</main>
+</div>
 
 <script>
   /* ==========================================================================
      CONFIGURAÇÃO — troque os links aqui. WhatsApp, e-mail, Instagram e o
      link do Analyzer já são reais. LinkedIn e o link institucional da
-     CRESBI estão como "#" até serem preenchidos — enquanto isso, os
-     botões ficam com opacidade reduzida e não fazem nada ao clicar
+     CRESBI estão como "#" até serem preenchidos — enquanto isso, o
+     card/ícone fica com opacidade reduzida e não faz nada ao clicar
      (ver lógica de "is-todo" abaixo).
      ========================================================================== */
+  const WHATSAPP_NUMBER = "5511932317374"; // mesmo número já usado no site oficial do Analyzer
+
+  function waLink(message) {
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  }
+
   const CONFIG = {
-    whatsapp: "https://wa.me/5511932317374?text=" + encodeURIComponent(
-      "Olá, Richard! Vim do seu perfil e gostaria de conversar."
-    ),
+    whatsapp: waLink("Olá, Richard! Vim do seu perfil e gostaria de conversar."),
+    consultoria: waLink("Olá, Richard! Tenho interesse em entender como funciona a consultoria."),
     email: "contato@cresbi.com.br",
     instagram: "https://instagram.com/cresbi.oficial",
-    linkedin: "#",  // TODO: inserir URL real do LinkedIn
+    linkedin: "#", // TODO: inserir URL real do LinkedIn
     analyzer: "https://cresbi.com.br",
-    cresbi: "#",    // TODO: inserir URL real de uma página institucional da CRESBI
-    // youtube: sem canal ainda — reintroduza esta chave se/quando existir.
+    cresbi: "#",   // TODO: inserir URL real de uma página institucional da CRESBI
   };
 
   document.querySelectorAll("[data-link]").forEach((el) => {
@@ -426,7 +398,7 @@
           obs.unobserve(entry.target);
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -4% 0px" }
     );
     revealEls.forEach((el) => observer.observe(el));
   }
